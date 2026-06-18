@@ -2,12 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lost-and-found</title>
+    
+    <!-- PRIMARY SEO -->
+    <title>Lost and Found Nairobi | Recover Lost Items Quickly</title>
+    <meta name="description" content="A reliable lost and found platform in Nairobi, Kenya. Report lost items or search our database for found property. Helping the community reconnect with their belongings." />
+    <meta name="keywords" content="lost and found Nairobi, report lost item, found property Kenya, lost documents, lost keys Nairobi, community lost and found" />
+    <link rel="canonical" href="https://yourwebsite.com/" />
+    
+    <!-- OPEN GRAPH / AEO (AI Search) -->
+    <meta property="og:title" content="Lost and Found Nairobi" />
+    <meta property="og:description" content="Report or search for lost items in Nairobi. A community-driven platform to help you find your lost property." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lost and Found Nairobi" />
+    
+    <!-- JSON-LD STRUCTURED DATA (Crucial for AI/Search understanding) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Lost and Found Nairobi",
+      "url": "https://yourwebsite.com/",
+      "description": "A digital platform for reporting and finding lost items in Kenya.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourwebsite.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <div id="root"></div>
+    <!-- The search bot sees the content here -->
+    <div id="root">
+        <h1>Lost and Found Nairobi</h1>
+        <p>A platform to help you report and find lost items within Nairobi, Kenya.</p>
+    </div>
+    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
