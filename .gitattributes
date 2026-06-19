@@ -1,0 +1,10 @@
+* text=auto
+*.js eol=lf
+*.jsx eol=lf
+*.ts eol=lf
+*.tsx eol=lf
+*.json eol=lf
+*.css eol=lf
+*.html eol=lf
+README.md text
+package.json text
