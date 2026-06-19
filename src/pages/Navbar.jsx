@@ -2,19 +2,30 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
+  // Updated colors to match the earthy brown/cream palette
   const linkClass = ({ isActive }) =>
-    `px-3 py-2 rounded-md text-sm font-medium transition ${
-      isActive ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100'
+    `px-4 py-2 rounded-lg text-sm font-semibold transition duration-200 ${
+      isActive 
+        ? 'bg-[#2d1e13] text-[#fbf6ef]' 
+        : 'text-[#5c4a3d] hover:bg-[#eaddcf] hover:text-[#2d1e13]'
     }`
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <NavLink to="/" className="font-bold text-lg tracking-tight text-gray-900">
-          Lost&Found
+    <header className="sticky top-0 z-50 border-b border-[#c1a084]/30 bg-[#fbf6ef]/90 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+        
+        {/* Logo Section: Styled as a branded mark */}
+        <NavLink to="/" className="flex items-center gap-2 group">
+          <div className="w-8 h-8 rounded-full bg-[#2d1e13] flex items-center justify-center text-[#fbf6ef] font-bold text-xs">
+            L&F
+          </div>
+          <span className="font-bold text-xl tracking-tight text-[#2d1e13]">
+            Lost&Found
+          </span>
         </NavLink>
 
-        <nav className="flex items-center gap-1">
+        {/* Navigation */}
+        <nav className="flex items-center gap-2">
           <NavLink to="/" end className={linkClass}>
             Home
           </NavLink>
