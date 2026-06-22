@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { getItems } from '../api';
 // Helper function to cleanly handle string matching without case errors
 const normalize = (str) => (str ? str.toLowerCase().trim() : '');
 
@@ -14,8 +14,8 @@ const Items = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/items');
-        setITEMS(response.data);
+        const data = await getItems();
+        setITEMS(data);
       } catch (error) {
         console.error('Error fetching items:', error);
       }
