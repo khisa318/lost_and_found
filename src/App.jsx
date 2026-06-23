@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Items from './pages/Items'
 import Admin from './pages/Admin'
 import About from './pages/About'
+import AdminDashboard from './pages/AdminDashboard'
+import ProtectedRoute from './pages/ProtectedRoute' // Imported with capital P
 
 const App = () => {
   return (
@@ -14,6 +16,13 @@ const App = () => {
         <Route path="/items" element={<Items />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/about" element={<About />} />
+        
+        {/* FIXED: Changed <protectedRoute> to <ProtectedRoute> */}
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   )
