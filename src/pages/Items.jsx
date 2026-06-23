@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { getItems } from '../api';
+import { getItems, postFoundItem } from '../api';
 import ItemCard from './ItemCard'; // Verified path matching layout imports
 
 const normalize = (str) => (str ? str.toLowerCase().trim() : '');
@@ -9,6 +9,10 @@ const Items = () => {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
   const [status, setStatus] = useState('All');
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +44,43 @@ const Items = () => {
       return matchesQuery && matchesCategory && matchesStatus;
     });
   }, [ITEMS, query, category, status]);
+
+  const handleFoundItem = async (e) => {
+  e.preventDefault();
+
+  if (!title || !category || !location || !description) {
+    alert('Please fill in all fields before submitting.');
+    return;
+  }
+
+  const newItem = {
+    title,
+    category,
+    location,
+    description,
+  };
+
+  try {
+    const response = await postFoundItem(newItem);
+
+    if (response.success) {
+      alert('Item reported successfully!');
+
+      const data = await getItems();
+      setITEMS(data);
+
+      setTitle('');
+      setDescription('');
+      setLocation('');
+      setCategory('All');
+    } else {
+      alert(response.message);
+    }
+  } catch (error) {
+    console.error('Error reporting item:', error);
+    alert('An error occurred while reporting the item.');
+  }
+};
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
@@ -132,15 +173,15 @@ const Items = () => {
               This is a UI placeholder—wire this to a backend later.
             </p>
 
-            <form className="mt-4 space-y-3" onSubmit={(e) => e.preventDefault()}>
+            <form className="mt-4 space-y-3" onSubmit={handleFoundItem}>
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Title</label>
-                <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="e.g., Black wallet" />
+                <input value={title} className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="e.g., Black wallet" onChange={(e) => setTitle(e.target.value)} />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Category</label>
-                <select className="w-full rounded-md border border-gray-300 px-3 py-2" defaultValue="Wallet">
+                <select className="w-full rounded-md border border-gray-300 px-3 py-2" defaultValue="Wallet" onChange={(e) => setCategory(e.target.value)}>
                   <option>Wallet</option>
                   <option>Keys</option>
                   <option>Bag</option>
@@ -151,14 +192,15 @@ const Items = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Location</label>
-                <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="Where did you find it?" />
+                <input value={location} className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="Where did you find it?" onChange={(e) => setLocation(e.target.value)} />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Description</label>
                 <textarea
                   className="w-full rounded-md border border-gray-300 px-3 py-2 min-h-[90px]"
-                  placeholder="Add any identifying details"
+                  placeholder="Add any identifying details" value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
 

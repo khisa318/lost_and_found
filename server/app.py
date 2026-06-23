@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +20,7 @@ class Item(db.Model):
     status = db.Column(db.String(20), nullable=False) # 'Lost' or 'Found'
     location = db.Column(db.String(100))
     foundBy = db.Column(db.String(100))
-    date = db.Column(db.String(20))
+    date = db.Column(db.String(20), default=datetime.utcnow)
     description = db.Column(db.Text)
 
     def to_dict(self):
@@ -35,8 +36,30 @@ class Item(db.Model):
             "description": self.description
         }
 
-@app.route('/api/items', methods=['GET'])
+@app.route('/api/items', methods=['GET' , 'POST'])
 def get_items():
+    if request.method == 'POST':
+        data = request.get_json() or {} # Fallback to empty dict if payload missing)
+
+        new_item = Item(
+            title=data.get('title'),
+            category=data.get('category'),
+            status="Found",
+            location=data.get('location'),
+            foundBy="Community Reporter",
+            date=datetime.today().strftime("%Y-%m-%d"),
+            description=data.get('description')
+        )
+
+        if not new_item.title or not new_item.category:
+            return jsonify({"error": "Missing required fields"}), 400
+        
+
+        db.session.add(new_item)
+        db.session.commit()
+
+        return jsonify({"success": True, "message": "Item reported successfully!", "item": new_item.to_dict()}), 201
+    
     db_items = Item.query.all()
     return jsonify([item.to_dict() for item in db_items])
 

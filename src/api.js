@@ -41,3 +41,13 @@ export const getAdmin = async (username, password) => {
         throw error;
     }
 };
+
+export const postFoundItem = async (itemData) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/items`, itemData);
+        return response.data;
+    } catch (error) {
+        console.error('Error posting found item:', error);
+        throw error;
+    }
+};
