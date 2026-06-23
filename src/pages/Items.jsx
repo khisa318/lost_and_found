@@ -1,11 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import axios from 'axios';
 import { getItems } from '../api';
-// Helper function to cleanly handle string matching without case errors
+import ItemCard from './ItemCard'; // Verified path matching layout imports
+
 const normalize = (str) => (str ? str.toLowerCase().trim() : '');
 
 const Items = () => {
-  // 1. Move the API state variable and effect inside the component scope
   const [ITEMS, setITEMS] = useState([]);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
@@ -20,17 +19,14 @@ const Items = () => {
         console.error('Error fetching items:', error);
       }
     };
-
     fetchData();
   }, []);
 
-  // 2. Add [ITEMS] dependency so categories calculate as soon as data loads
   const categories = useMemo(() => {
     const uniq = new Set(ITEMS.map((i) => i.category));
     return ['All', ...Array.from(uniq)];
   }, [ITEMS]);
 
-  // 3. Keep the filter reactive on state updates
   const filtered = useMemo(() => {
     const q = normalize(query);
     return ITEMS.filter((item) => {
@@ -60,8 +56,10 @@ const Items = () => {
         </div>
       </div>
 
-      {/* Filters + Report UI */}
+      {/* Main Content Layout Grid */}
       <section className="mt-6 grid lg:grid-cols-3 gap-5">
+        
+        {/* Left/Middle Column: Filters & Cards Layout */}
         <div className="lg:col-span-2">
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <div className="grid sm:grid-cols-3 gap-3">
@@ -111,47 +109,10 @@ const Items = () => {
             </div>
           </div>
 
+          {/* Cards Dynamic Loop Output */}
           <div className="mt-5 grid sm:grid-cols-2 gap-4">
             {filtered.map((item) => (
-              <article key={item.id} className="rounded-2xl border border-gray-200 p-5 bg-white">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="font-bold text-gray-900">{item.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {item.category} • {item.location}
-                    </p>
-                  </div>
-                  <span
-                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold border ${
-                      item.status === 'Found'
-                        ? 'bg-green-50 border-green-200 text-green-800'
-                        : 'bg-amber-50 border-amber-200 text-amber-800'
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </div>
-
-                <p className="mt-3 text-sm text-gray-700">{item.description}</p>
-
-                <div className="mt-4 text-xs text-gray-500 flex items-center justify-between">
-                  <span>{new Date(item.date).toLocaleDateString()}</span>
-                  {item.status === 'Found' ? (
-                    <span>{item.foundBy}</span>
-                  ) : (
-                    <span className="italic">Owner not provided</span>
-                  )}
-                </div>
-
-                <div className="mt-4 flex gap-2">
-                  <button className="flex-1 rounded-md bg-gray-100 hover:bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-800 transition">
-                    View details
-                  </button>
-                  <button className="rounded-md border border-gray-300 hover:bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-800 transition">
-                    {item.status === 'Found' ? 'Claim' : 'Update'}
-                  </button>
-                </div>
-              </article>
+              <ItemCard key={item.id} item={item} />
             ))}
           </div>
 
@@ -163,7 +124,7 @@ const Items = () => {
           )}
         </div>
 
-        {/* Report Card */}
+        {/* Right Column: Cleaned Sidebar Form */}
         <aside className="lg:col-span-1">
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <h2 className="text-lg font-bold text-gray-900">Report a found item</h2>
@@ -176,6 +137,7 @@ const Items = () => {
                 <label className="block text-sm font-medium text-gray-800 mb-1">Title</label>
                 <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="e.g., Black wallet" />
               </div>
+              
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Category</label>
                 <select className="w-full rounded-md border border-gray-300 px-3 py-2" defaultValue="Wallet">
@@ -186,10 +148,12 @@ const Items = () => {
                   <option>Other</option>
                 </select>
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Location</label>
                 <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="Where did you find it?" />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-800 mb-1">Description</label>
                 <textarea
@@ -205,12 +169,13 @@ const Items = () => {
                 Submit report
               </button>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 pt-1">
                 Tip: include color, brand, unique marks, and where/when you found it.
               </p>
             </form>
           </div>
         </aside>
+
       </section>
     </main>
   );
