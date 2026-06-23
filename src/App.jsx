@@ -8,6 +8,8 @@ import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './pages/ProtectedRoute' 
 import ItemsDetailPage from './pages/ItemsDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
+import UserDashboard from './pages/UserDashboard'
+import AuthUser from './pages/AuthUser'
 
 const App = () => {
   return (
@@ -21,12 +23,18 @@ const App = () => {
         
         {/* FIXED: Changed <protectedRoute> to <ProtectedRoute> */}
         <Route path="/admin-dashboard" element={
-          <ProtectedRoute>
+          <ProtectedRoute role="admin">
             <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/items/:id" element={<ItemsDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/user-dashboard" element={
+          <ProtectedRoute role="user">
+            <UserDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/login" element={<AuthUser />} />
       </Routes>
     </div>
   )
