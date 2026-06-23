@@ -2,6 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
+
+  const isLoggedIn = !!localStorage.getItem('adminToken'); // Check if the admin token exists in localStorage
   // Updated colors to match the earthy brown/cream palette
   const linkClass = ({ isActive }) =>
     `px-4 py-2 rounded-lg text-sm font-semibold transition duration-200 ${
@@ -35,7 +37,7 @@ const Navbar = () => {
           <NavLink to="/about" className={linkClass}>
             About
           </NavLink>
-          <NavLink to="/admin" className={linkClass}>
+          <NavLink to={isLoggedIn ? "/admin-dashboard" : "/admin"} className={linkClass}>
             Admin
           </NavLink>
         </nav>

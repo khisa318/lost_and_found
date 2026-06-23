@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom' // Swapped Navigate for useNavigate
 
 const Card = ({ title, subtitle, children }) => {
   return (
@@ -13,15 +14,33 @@ const Card = ({ title, subtitle, children }) => {
 }
 
 const AdminDashboard = () => {
+  const navigate = useNavigate(); // Initialize the navigation engine hook
+
+  // FIXED: Moved inside the component scope to safely use the navigate hook
+  const handleLogOut = () => {
+    localStorage.removeItem('adminToken'); // Clear the token from localStorage
+    navigate('/admin', { replace: true }); // Imperative navigation redirect
+  }
+
   return (
     <main className="w-full min-h-screen bg-[#fbf6ef] px-6 py-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-extrabold tracking-tight text-[#2d1e13]">Admin Dashboard</h1>
-          <p className="mt-2 text-[#5c4a3d]">
-            Control panel for managing reports, users, and moderation guidelines.
-          </p>
-        </div>
+  <h1 className="text-4xl font-extrabold tracking-tight text-[#2d1e13]">Admin Dashboard</h1>
+  
+  {/* FIXED: Added a flex layout container to automatically separate text from the button */}
+  <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <p className="text-[#5c4a3d]">
+      Control panel for managing reports, users, and moderation guidelines.
+    </p>
+    <button 
+      onClick={handleLogOut} 
+      className="rounded-md bg-[#c1a084] px-4 py-2 text-sm font-bold text-[#2d1e13] hover:bg-[#eaddcf] transition whitespace-nowrap self-start sm:self-auto"
+    >
+      Log Out
+    </button>
+  </div>
+</div>
 
         <div className="grid lg:grid-cols-2 gap-6">
           <Card title="Reports" subtitle="Manage reported found/lost items">
