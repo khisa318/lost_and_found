@@ -7,6 +7,7 @@ import About from './pages/About'
 import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './pages/ProtectedRoute' 
 import ItemsDetailPage from './pages/ItemsDetailPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           </ProtectedRoute>
         } />
         <Route path="/items/:id" element={<ItemsDetailPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   )
