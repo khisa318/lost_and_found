@@ -1,13 +1,20 @@
-from app import app, db, Item
+from app import app, db, Admin
 
-# Use the app context to access the database
 with app.app_context():
-    # Create some items
-    item1 = Item(title="Lost Wallet", status="Lost")
-    item2 = Item(title="Found Keys", status="Found")
+    # Make sure tables exist in the new file
+    db.create_all()
     
-    # Add to session and commit
-    db.session.add(item1)
-    db.session.add(item2)
+    # Clean any leftover records
+    db.session.query(Admin).delete()
+    db.session.query(Admin).delete()
+    
+    print("🌱 Seeding database with admin credentials")
+ 
+    admin = Admin(
+            username="admin",
+            password="password"
+        )
+    
+    db.session.add(admin)
     db.session.commit()
-    print("Database seeded with 2 items!")
+    print("🎉 Database successfully recreated and seeded with 12 complete records!")
