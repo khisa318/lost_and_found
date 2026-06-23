@@ -66,3 +66,23 @@ export const deleteItem = async (id) => {
         throw error;
     }
 };
+
+export const userLogin = async ({ email, password }) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/login`, { email, password });
+        return response.data;
+    } catch (error) {
+        console.error('Error during user login:', error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const userSignup = async ({ username, email, password }) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/signup`, { username, email, password });
+        return response.data;
+    } catch (error) {
+        console.error('Error during user signup:', error.response?.data || error.message);
+        throw error;
+    }
+};
