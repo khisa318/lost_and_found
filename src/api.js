@@ -15,6 +15,15 @@ export const getItems = async () => {
     }
 };
 
+export const getItem = async (id) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/items/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching item with id ${id}:`, error);
+        throw error;
+    }
+}
 /**
  * Sends admin credentials to the backend for authentication
  */
