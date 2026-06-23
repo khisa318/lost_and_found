@@ -51,3 +51,18 @@ export const postFoundItem = async (itemData) => {
         throw error;
     }
 };
+
+export const deleteItem = async (id) => {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await axios.delete(`${BASE_URL}/items/${id}`, {
+            headers: {
+                'Authorization': token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error deleting item with id ${id}:`, error);
+        throw error;
+    }
+};

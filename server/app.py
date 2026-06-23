@@ -92,6 +92,18 @@ def get_item(item_id):
         }), 404
 
     return jsonify(item.to_dict())
+
+@app.route('/api/items/<int:item_id>', methods=['DELETE'])
+def delete_item(item_id):
+    item = Item.query.get(item_id)
+    if not item:
+        return jsonify({"error": "Item not found"}), 404
+    
+    db.session.delete(item)
+    db.session.commit()
+     
+    return jsonify({"success": True, "message": "Item deleted successfully"}), 200
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all() # Recreates app.db structure automatically
