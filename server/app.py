@@ -57,8 +57,18 @@ def admin_login():
     if admin and admin.password == password:
         return jsonify({"success": True, "message": "Login successful"}), 200
     else:
-        return jsonify({"success": False, "message": "Invalid credentials"}), 401
+        return jsonify({"success": False, "message": "Invalid credentials"}), 401\
+        
+@app.route('/api/items/<int:item_id>', methods=['GET'])
+def get_item(item_id):
+    item = Item.query.get(item_id)
 
+    if not item:
+        return jsonify({
+            "message": "Item not found"
+        }), 404
+
+    return jsonify(item.to_dict())
 if __name__ == '__main__':
     with app.app_context():
         db.create_all() # Recreates app.db structure automatically
