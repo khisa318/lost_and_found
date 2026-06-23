@@ -5,7 +5,8 @@ import Items from './pages/Items'
 import Admin from './pages/Admin'
 import About from './pages/About'
 import AdminDashboard from './pages/AdminDashboard'
-import ProtectedRoute from './pages/ProtectedRoute' // Imported with capital P
+import ProtectedRoute from './pages/ProtectedRoute' 
+import ItemsDetailPage from './pages/ItemsDetailPage'
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <AdminDashboard />
           </ProtectedRoute>
         } />
+        <Route path="/items/:id" element={<ItemsDetailPage />} />
       </Routes>
     </div>
   )

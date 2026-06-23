@@ -1,6 +1,8 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 const ItemCard = ({ item }) => {
+    const navigate = useNavigate();
   return (
     <article className="rounded-2xl border border-gray-200 p-5 bg-white">
       <div className="flex items-start justify-between gap-3">
@@ -46,7 +48,7 @@ const ItemCard = ({ item }) => {
       </div>
 
       <div className="mt-4 flex gap-2">
-        <button className="flex-1 rounded-md bg-gray-100 hover:bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-800 transition">
+        <button onClick={() => navigate(`/items/${item.id}`)} className="flex-1 rounded-md bg-gray-100 hover:bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-800 transition">
           View Details
         </button>
 
